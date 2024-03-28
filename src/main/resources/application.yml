@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: java_competition_management_system
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/competitionmanagementdatabase?serverTimezone=UTC
+    username: root
+    password: root
+mybatis-plus:
+  type-aliases-package: com.example.entity
+  configuration:
+    #    驼峰命名
+    map-underscore-to-camel-case: true
+    #    表示会自动映射任意复杂的结果集，无论是否嵌套
+    auto-mapping-behavior: full
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/**/*.xml
+  global-config:
+    banner: true
+    db-config:
+      logic-not-delete-value: 1    #逻辑未删除值-----逻辑删除:假删除,将对应数据中代表是否被删除字段状态修改为"被删除状态",之后在数据库中仍能看到此条数据记录
+      logic-delete-value: 0        #逻辑已删除值
+logging:
+  level:
+    root: info
