@@ -4,17 +4,14 @@ import cms.java_competition_management_system.common.ResponseResult;
 import cms.java_competition_management_system.entity.InDTO.LoginDTO;
 import cms.java_competition_management_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("user")
 @RestController
 public class UserController {
     @Autowired
     private UserService userService;
-    @GetMapping("login")
+    @PostMapping("login")
     public ResponseResult login(@RequestBody LoginDTO loginDTO){
         String token = userService.login(loginDTO);
         return new ResponseResult(200,"登陆成功!",token);
