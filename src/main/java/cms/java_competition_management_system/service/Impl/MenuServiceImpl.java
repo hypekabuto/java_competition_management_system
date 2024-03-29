@@ -16,13 +16,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Autowired
     private MenuMapper menuMapper;
     @Override
-    public List<Map<String,Object>> selectMenuData(List<Role> role) {
+    public List<Map<String,Object>> selectMenuData(List<Role> roleIdLists) {
         List<Map<String,Object>> maps = new ArrayList<>();
-        System.out.println(role.get(0).getRoleId());
+        System.out.println(roleIdLists.get(0).getRoleId());
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i <= role.size()-1; i++){
-            list.add(role.get(i).getRoleId());
-            Integer roleId = role.get(i).getRoleId();
+        for (int i = 0; i <= roleIdLists.size()-1; i++){
+            list.add(roleIdLists.get(i).getRoleId());
+            Integer roleId = roleIdLists.get(i).getRoleId();
             List<Menu> roleList = menuMapper.selectMenuData(roleId);
             for (int y = 0; y <= roleList.size()-1; y++) {
                 Map<String,Object> news = new HashMap<>();

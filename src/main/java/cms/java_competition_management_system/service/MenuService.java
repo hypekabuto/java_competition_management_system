@@ -10,5 +10,5 @@ import java.util.Map;
 
 @Service
 public interface MenuService extends IService<Menu> {
-    List<Map<String,Object>> selectMenuData(List<Role> role);
+    List<Map<String,Object>> selectMenuData(List<Role> roleIdLists);
 }

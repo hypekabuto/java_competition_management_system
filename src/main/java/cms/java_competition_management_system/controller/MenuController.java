@@ -17,8 +17,8 @@ public class MenuController {
     private MenuService menuService;
     @PostMapping("getMenuData")
     @PreAuthorize("hasAuthority('userCenter')")
-    public ResponseResult getMenuData(@RequestBody List<Role> role){
-        List<Map<String,Object>> stringObjectMap = menuService.selectMenuData(role);
+    public ResponseResult getMenuData(@RequestBody List<Role> roleIdLists){
+        List<Map<String,Object>> stringObjectMap = menuService.selectMenuData(roleIdLists);
         return new ResponseResult(200,"用户视窗地址",stringObjectMap);
     }
 }
