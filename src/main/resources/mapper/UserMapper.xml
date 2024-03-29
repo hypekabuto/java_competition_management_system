@@ -40,4 +40,18 @@
                     left join role r on ur.role_id = r.role_id
         where u.deleted = 0 and r.deleted = 0 and u.stu_id = #{stuId}
     </select>
+    <select id="selectUserById" resultMap="UserResultMap">
+        SELECT
+            u.user_id,u.user_name,u.nick_name,u.stu_id,u.password,u.avatar,u.age,u.sex,u.birthday,u.email,
+            u.classes,u.hobby,u.address,u.college,u.profession,u.status,u.create_time,u.creator,u.deleted,
+            r.role_id,r.role_label,r.role_name,r.status,r.deleted,r.create_Time
+        FROM
+            USER u
+                LEFT JOIN user_role ur ON u.user_id = ur.user_id
+                LEFT JOIN role r ON ur.role_id = r.role_id
+        WHERE
+            u.deleted = 0
+          AND r.deleted = 0
+          AND u.user_id = #{userId}
+    </select>
 </mapper>

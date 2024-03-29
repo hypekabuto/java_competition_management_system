@@ -1,5 +1,7 @@
 package cms.java_competition_management_system.controller;
 
+import cms.java_competition_management_system.entity.User;
+import cms.java_competition_management_system.service.UserService;
 import cms.java_competition_management_system.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
+@Autowired
+private UserService userService;
 
     @Autowired
     private RedisCache redisCache;
@@ -17,11 +21,11 @@ public class TestController {
         return "trainList";
     }
     @GetMapping("test02")
-    @PreAuthorize("hasAuthority('forumList')")
+    @PreAuthorize("hasAuthority('userCenter')")
     public String test02(){
         Object cacheObject = redisCache.getCacheObject("login:" + "1");
         System.out.println("redis的数据是："+cacheObject);
-        return "forumList";
+        return "userCenter";
     }
 
 }

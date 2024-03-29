@@ -1,12 +1,14 @@
 package cms.java_competition_management_system.service.Impl;
 
 import cms.java_competition_management_system.entity.InDTO.LoginDTO;
+import cms.java_competition_management_system.entity.Role;
 import cms.java_competition_management_system.entity.User;
 import cms.java_competition_management_system.mapper.UserMapper;
 import cms.java_competition_management_system.service.UserService;
 import cms.java_competition_management_system.utils.JwtUtil;
 import cms.java_competition_management_system.utils.RedisCache;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,10 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -31,6 +30,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     private JwtUtil jwtUtil;
     @Autowired
     private RedisCache redisCache;
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public String login(LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loginDTO.getStuId(), loginDTO.getPassword());
@@ -72,4 +73,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
 
     }
+
+    @Override
+    public List getRole(String token) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userDetails = (User) principal;
+        User user = userMapper.selectUserById(userDetails.getUserId());
+        Set<Role> roleSet = user.getRoleSet();
+        List newList = new ArrayList();
+        for (Role role : roleSet) {
+            newList.add(role.getRoleId());
+        }
+        return newList;
+    }
+
+
 }
