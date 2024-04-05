@@ -17,7 +17,7 @@ class JavaCompetitionManagementSystemApplicationTests {
     public PasswordEncoder passwordEncoder;
     @Test
     public void contextLoads() {
-        String password = "123456";
+        String password = "1234";
         String result = passwordEncoder.encode(password);
         System.out.println(result);
         boolean isTrue = passwordEncoder.matches(password, result);

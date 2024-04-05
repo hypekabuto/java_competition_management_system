@@ -26,7 +26,7 @@ public class User implements Serializable, UserDetails {
     private String avatar;
     private Integer age;
     private Integer sex;
-    private LocalDateTime birthday;
+    private String birthday;
     private String email;
     private String classes;
     private String hobby;
@@ -34,12 +34,12 @@ public class User implements Serializable, UserDetails {
     private String college;
     private String profession;
     private Integer status;
-    private LocalDateTime createTime;
+    private String createTime;
     private String creator;
-    @TableLogic
     private Integer deleted;
-
+    @TableField(exist = false)
     private Set<Role> roleSet = new HashSet<>();
+    @TableField(exist = false)
     private List<String> perms = new ArrayList<>();
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

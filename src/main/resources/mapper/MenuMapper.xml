@@ -13,7 +13,7 @@
     </select>
     <select id="selectMenuData" resultType="cms.java_competition_management_system.entity.Menu">
         SELECT
-            m.icon,m.perms,m.menu_name
+            m.icon,m.perms,m.menu_name,m.sort
         FROM
             role r
                 LEFT JOIN role_menu ru ON r.role_id = ru.role_id
@@ -22,5 +22,7 @@
             r.deleted = 0
           AND m.deleted = 0
           AND r.role_id = #{menuId}
+        ORDER BY
+            m.sort ASC;
     </select>
 </mapper>

@@ -31,14 +31,78 @@
         <result column="deleted" property="deleted"/>
         <result column="create_Time" property="createTime"/>
     </resultMap>
+    <update id="updataUserAvatar">
+        update USER
+        SET avatar = #{fileName}
+        WHERE
+            user_id = #{userId}
+    </update>
+    <update id="updateUserById">
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="user.nickName!=null and user.nickName!=''">
+                nick_name=#{user.nickName},
+            </if>
+            <if test="user.age!=null">
+                age=#{user.age},
+            </if>
+            <if test="user.birthday!=null and user.birthday.toString()!=''">
+                birthday=STR_TO_DATE(SUBSTRING_INDEX(#{user.birthday}, 'T', 1), '%Y-%m-%d'),
+            </if>
+            <if test="user.email!=null and user.email!=''">
+                email=#{user.email},
+            </if>
+            <if test="user.classes!=null and user.classes!=''">
+                classes=#{user.classes},
+            </if>
+            <if test="user.hobby!=null and user.hobby!=''">
+                hobby=#{user.hobby},
+            </if>
+            <if test="user.address!=null and user.address!=''">
+                address=#{user.address},
+            </if>
+            <if test="user.college!=null and user.college!=''">
+                college=#{user.college},
+            </if>
+            <if test="user.profession!=null and user.profession!=''">
+                profession=#{user.profession}
+            </if>
+        </trim>
+        WHERE user_id=#{user.userId}
+    </update>
     <select id="selectByStuId" resultMap="UserResultMap">
-        select
-            u.user_id,u.user_name,u.nick_name,u.stu_id,u.password,u.avatar,u.age,u.sex,u.birthday,u.email,
-            u.classes,u.hobby,u.address,u.college,u.profession,u.status,u.create_time,u.creator,u.deleted,
-            r.role_id,r.role_label,r.role_name,r.status,r.deleted,r.create_Time
-        from user u left join user_role ur on u.user_id = ur.user_id
-                    left join role r on ur.role_id = r.role_id
-        where u.deleted = 0 and r.deleted = 0 and u.stu_id = #{stuId}
+        SELECT
+            u.user_id,
+            u.user_name,
+            u.nick_name,
+            u.stu_id,
+            u.password,
+            u.avatar,
+            u.age,
+            u.sex,
+            u.birthday,
+            u.email,
+            u.classes,
+            u.hobby,
+            u.address,
+            u.college,
+            u.profession,
+            u.status,
+            u.create_time,
+            u.creator,
+            u.deleted,
+            r.role_id,
+            r.role_label,
+            r.role_name,
+            r.status,
+            r.create_Time
+        FROM
+            user u
+                LEFT JOIN user_role ur ON u.user_id = ur.user_id AND ur.role_id IS NOT NULL
+                LEFT JOIN role r ON ur.role_id = r.role_id AND r.deleted = 0
+        WHERE
+            u.deleted = 0
+          AND u.stu_id = #{stuId};
     </select>
     <select id="selectUserById" resultMap="UserResultMap">
         SELECT
@@ -53,5 +117,27 @@
             u.deleted = 0
           AND r.deleted = 0
           AND u.user_id = #{userId}
+    </select>
+    <select id="selectUserDetail" resultType="cms.java_competition_management_system.entity.OutDTO.UserDeatilOutDTO">
+        SELECT
+            user_id,
+            nick_name,
+            user_name as userName,
+            stu_id,
+            avatar,
+            age,
+            sex,
+            date_format(birthday,'%Y/%m/%d') as birthday,
+            email,
+            classes,
+            hobby,
+            address,
+            college,
+            profession,
+            status
+        FROM
+            USER
+        WHERE
+            user_id = #{userId};
     </select>
 </mapper>

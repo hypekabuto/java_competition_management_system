@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @TableName("role")
@@ -15,8 +16,7 @@ public class Role {
     private String roleLabel;
     private String roleName;
     private Integer status;
-    @TableLogic
     private Integer deleted;
     private LocalDateTime createTime;
-
+    private List<Integer> roleIds;
 }

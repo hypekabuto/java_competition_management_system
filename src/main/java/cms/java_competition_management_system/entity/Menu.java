@@ -16,7 +16,6 @@ public class Menu {
     private Integer sort;
     private String perms;
     private Integer menuType;
-    @TableLogic
     private Integer deleted;
     private LocalDateTime createTime;
 }

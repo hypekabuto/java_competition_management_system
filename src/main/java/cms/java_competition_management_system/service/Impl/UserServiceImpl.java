@@ -1,6 +1,7 @@
 package cms.java_competition_management_system.service.Impl;
 
 import cms.java_competition_management_system.entity.InDTO.LoginDTO;
+import cms.java_competition_management_system.entity.OutDTO.UserDeatilOutDTO;
 import cms.java_competition_management_system.entity.Role;
 import cms.java_competition_management_system.entity.User;
 import cms.java_competition_management_system.mapper.UserMapper;
@@ -85,6 +86,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
             newList.add(role.getRoleId());
         }
         return newList;
+    }
+
+    @Override
+    public UserDeatilOutDTO getUserDetail() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userDetails = (User) principal;
+        UserDeatilOutDTO user = userMapper.selectUserDetail(userDetails.getUserId());
+        return user;
+    }
+
+    @Override
+    public void updataUserAvatar(String fileName) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userDetails = (User) principal;
+        userMapper.updataUserAvatar(userDetails.getUserId(),fileName);
+    }
+
+    @Override
+    public void updateUserById(User user) {
+        userMapper.updateUserById(user);
     }
 
 
